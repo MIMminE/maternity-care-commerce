@@ -14,6 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Table(name = "orders")
@@ -39,5 +42,33 @@ public class Order extends BaseTimeEntity {
 
     protected Order() {
     }
-}
 
+    public Order(Member member, BigDecimal totalAmount) {
+        this.orderNumber = generateOrderNumber();
+        this.member = member;
+        this.totalAmount = totalAmount;
+        this.status = OrderStatus.CREATED;
+    }
+
+    private String generateOrderNumber() {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        int suffix = ThreadLocalRandom.current().nextInt(1000, 9999);
+        return "MC" + timestamp + suffix;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+}

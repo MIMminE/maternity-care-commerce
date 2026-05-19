@@ -36,5 +36,23 @@ public class OrderItem {
 
     protected OrderItem() {
     }
-}
 
+    public OrderItem(Order order, Product product, int quantity, BigDecimal unitPrice) {
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+}

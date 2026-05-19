@@ -34,5 +34,29 @@ public class CartItem extends BaseTimeEntity {
 
     protected CartItem() {
     }
-}
 
+    public CartItem(Member member, Product product, int quantity) {
+        this.member = member;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    public void changeQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("장바구니 수량은 1개 이상이어야 합니다.");
+        }
+        this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+}
