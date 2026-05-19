@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: ${DOCKER_IMAGE}
+    container_name: maternity-care-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECURITY_JWT_SECRET: ${SECURITY_JWT_SECRET}
+
