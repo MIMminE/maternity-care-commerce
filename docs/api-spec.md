@@ -10,6 +10,7 @@ Swagger/OpenAPI 도입 후 주요 API 명세를 연결합니다.
 - `GET /client-api/v1/me`
 - `GET /client-api/v1/pregnancy-profile/me`
 - `PUT /client-api/v1/pregnancy-profile/me`
+- `GET /client-api/v1/consents/me`
 - `GET /client-api/v1/contents`
 - `GET /client-api/v1/products`
 - `GET /client-api/v1/cart`
