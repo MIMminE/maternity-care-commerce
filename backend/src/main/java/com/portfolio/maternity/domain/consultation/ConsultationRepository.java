@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
 
     List<Consultation> findByMemberIdOrderByIdDesc(Long memberId);
-}
 
+    long countByStatus(ConsultationStatus status);
+}

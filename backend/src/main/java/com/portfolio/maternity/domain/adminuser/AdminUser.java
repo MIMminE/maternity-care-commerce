@@ -37,6 +37,14 @@ public class AdminUser extends BaseTimeEntity {
     protected AdminUser() {
     }
 
+    public AdminUser(String email, String name, String passwordHash, AdminRole role) {
+        this.email = email;
+        this.name = name;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.active = true;
+    }
+
     public Long getId() {
         return id;
     }
