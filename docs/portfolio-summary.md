@@ -41,4 +41,12 @@
 - 마케팅 동의 고객 필터링
 - 감사 로그
 - 통합 테스트
+- 로컬 데모 데이터
+- AWS 배포 워크플로우 초안
 
+## 데모 계정
+
+```txt
+관리자: admin@example.com / password123!
+사용자: mother@example.com / password123!
+```

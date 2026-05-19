@@ -115,6 +115,34 @@ Client Web:  http://localhost:5173
 Admin Web:   http://localhost:5174
 ```
 
+## 데모 계정
+
+로컬 프로필에서는 Flyway가 데모 데이터를 함께 적재합니다.
+
+```txt
+관리자
+email: admin@example.com
+password: password123!
+
+사용자
+email: mother@example.com
+password: password123!
+```
+
+## 추천 시연 순서
+
+1. `backend/docker-compose.yml`로 PostgreSQL 실행
+2. `backend`에서 `./gradlew bootRun` 실행
+3. `admin-web`에서 관리자 로그인
+4. 대시보드 통계 확인
+5. 회원 상세 조회 후 산모 프로필 확인
+6. 상품 목록 확인 및 상품 등록
+7. 마케팅 동의 고객 조회
+8. `client-web`에서 사용자 로그인
+9. 산모 프로필 저장
+10. 상품 조회, 장바구니 담기, 주문 생성
+11. 상담 신청
+
 ## 문서
 
 - [아키텍처](docs/architecture.md)

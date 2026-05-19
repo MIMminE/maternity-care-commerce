@@ -47,3 +47,7 @@ GitHub Actions
 - SSH는 관리자 IP만 허용
 - 운영 비밀값은 GitHub Secrets 또는 EC2 `.env`로 분리
 - 관리자 API 접근은 JWT role 기반으로 제한
+
+## 로컬 데모 데이터
+
+`application-local.yml`에서만 `classpath:db/local` Flyway location을 추가합니다. 운영 프로필은 `classpath:db/migration`만 사용하므로 데모 계정과 샘플 데이터가 운영 DB에 적재되지 않습니다.

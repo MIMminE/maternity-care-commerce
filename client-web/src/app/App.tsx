@@ -36,16 +36,28 @@ type Order = {
   totalAmount: number;
 };
 
+const demoProducts: Product[] = [
+  { id: 1, name: '산모애 바디로션', category: 'BODY_CARE', price: 32000, stockQuantity: 30, status: 'ON_SALE' },
+  { id: 2, name: '산모애 샴푸', category: 'HAIR_CARE', price: 28000, stockQuantity: 25, status: 'ON_SALE' },
+  { id: 3, name: '산모애 어메니티 세트', category: 'GIFT_SET', price: 54000, stockQuantity: 12, status: 'ON_SALE' }
+];
+
+const demoProfile: PregnancyProfile = {
+  status: 'PREGNANT',
+  expectedBirthDate: '2026-12-01',
+  pregnancyWeek: 13
+};
+
 export function App() {
   const [tab, setTab] = useState<Tab>('home');
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('mother@example.com');
   const [password, setPassword] = useState('password123!');
-  const [profile, setProfile] = useState<PregnancyProfile | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [profile, setProfile] = useState<PregnancyProfile | null>(demoProfile);
+  const [products, setProducts] = useState<Product[]>(demoProducts);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [notice, setNotice] = useState('회원가입 또는 로그인 후 서비스를 이용할 수 있습니다.');
+  const [notice, setNotice] = useState('데모 데이터가 표시 중입니다. 로그인 후 실제 API 흐름을 확인할 수 있습니다.');
 
   const authHeaders = useMemo(
     () => ({

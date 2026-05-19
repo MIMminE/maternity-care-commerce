@@ -75,13 +75,20 @@ npm install
 
 현재 로컬 환경에서 npm registry 연결이 장시간 대기 상태가 되어 프론트 빌드 검증은 완료하지 못했습니다. 코드와 설정 파일은 Vite/React 기준으로 작성되어 있으며, 네트워크가 가능한 환경에서 `npm install && npm run build`로 확인이 필요합니다.
 
+## 데모 계정
+
+```txt
+관리자: admin@example.com / password123!
+사용자: mother@example.com / password123!
+```
+
+로컬 프로필에서만 데모 데이터가 적재되도록 `db/local` Flyway 경로를 분리했습니다.
+
 ## 남은 보강 사항
 
 - 프론트 빌드 검증
-- 관리자 계정 seed 또는 초기 관리자 생성 절차
 - AWS 실제 배포
 - 화면 스크린샷 추가
 - 배포 URL 추가
 - Swagger/OpenAPI 도입
 - 관리자 상담/문의 상태 변경 UI 연결
-

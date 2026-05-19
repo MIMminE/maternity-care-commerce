@@ -54,13 +54,60 @@ type MarketingMember = {
 };
 
 const emptyDashboard: Dashboard = {
-  totalMembers: 0,
-  marketingAgreedMembers: 0,
-  totalOrders: 0,
-  totalOrderAmount: 0,
-  requestedConsultations: 0,
-  receivedInquiries: 0
+  totalMembers: 2,
+  marketingAgreedMembers: 2,
+  totalOrders: 1,
+  totalOrderAmount: 64000,
+  requestedConsultations: 1,
+  receivedInquiries: 1
 };
+
+const demoMembers: Member[] = [
+  {
+    id: 1,
+    email: 'mother@example.com',
+    name: '김마미',
+    phoneNumber: '010-1000-2000',
+    status: 'ACTIVE',
+    pregnancyProfile: {
+      status: 'PREGNANT',
+      expectedBirthDate: '2026-12-01',
+      pregnancyWeek: 13
+    }
+  }
+];
+
+const demoProducts: Product[] = [
+  { id: 1, name: '산모애 바디로션', category: 'BODY_CARE', price: 32000, stockQuantity: 30, status: 'ON_SALE' },
+  { id: 2, name: '산모애 샴푸', category: 'HAIR_CARE', price: 28000, stockQuantity: 25, status: 'ON_SALE' },
+  { id: 3, name: '산모애 어메니티 세트', category: 'GIFT_SET', price: 54000, stockQuantity: 12, status: 'ON_SALE' }
+];
+
+const demoConsultations: SupportTicket[] = [
+  {
+    id: 1,
+    memberId: 1,
+    title: '출산 후 제품 사용 상담',
+    body: '출산 직후에도 사용할 수 있는지 문의드립니다.',
+    status: 'REQUESTED'
+  }
+];
+
+const demoInquiries: SupportTicket[] = [
+  {
+    id: 1,
+    memberId: 1,
+    title: '향 문의',
+    body: '향이 강한 편인지 궁금합니다.',
+    status: 'RECEIVED',
+    productName: '산모애 샴푸'
+  }
+];
+
+const demoMarketingMembers: MarketingMember[] = [
+  { memberId: 1, email: 'mother@example.com', name: '김마미', phoneNumber: '010-1000-2000' },
+  { memberId: 2, email: 'marketing@example.com', name: '이산모', phoneNumber: '010-3000-4000' }
+];
 
 export function App() {
   const [view, setView] = useState<View>('dashboard');
@@ -68,13 +115,13 @@ export function App() {
   const [email, setEmail] = useState('admin@example.com');
   const [password, setPassword] = useState('password123!');
   const [dashboard, setDashboard] = useState<Dashboard>(emptyDashboard);
-  const [members, setMembers] = useState<Member[]>([]);
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [consultations, setConsultations] = useState<SupportTicket[]>([]);
-  const [inquiries, setInquiries] = useState<SupportTicket[]>([]);
-  const [marketingMembers, setMarketingMembers] = useState<MarketingMember[]>([]);
-  const [notice, setNotice] = useState('백엔드 API에 로그인하면 운영 데이터를 조회할 수 있습니다.');
+  const [members, setMembers] = useState<Member[]>(demoMembers);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(demoMembers[0]);
+  const [products, setProducts] = useState<Product[]>(demoProducts);
+  const [consultations, setConsultations] = useState<SupportTicket[]>(demoConsultations);
+  const [inquiries, setInquiries] = useState<SupportTicket[]>(demoInquiries);
+  const [marketingMembers, setMarketingMembers] = useState<MarketingMember[]>(demoMarketingMembers);
+  const [notice, setNotice] = useState('데모 데이터가 표시 중입니다. 백엔드 로그인 후 실제 데이터로 갱신할 수 있습니다.');
 
   const authHeaders = useMemo(
     () => ({
