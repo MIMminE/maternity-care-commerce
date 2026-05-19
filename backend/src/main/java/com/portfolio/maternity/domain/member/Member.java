@@ -56,11 +56,21 @@ public class Member extends BaseTimeEntity {
         return name;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public String getPasswordHash() {
         return passwordHash;
     }
 
     public MemberStatus getStatus() {
         return status;
+    }
+
+    public static Member reference(Long id) {
+        Member member = new Member();
+        member.id = id;
+        return member;
     }
 }

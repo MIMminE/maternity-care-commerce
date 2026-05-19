@@ -40,5 +40,11 @@ public class AuditLog extends BaseTimeEntity {
 
     protected AuditLog() {
     }
-}
 
+    public AuditLog(AdminUser adminUser, Member targetMember, AuditAction action, String reason) {
+        this.adminUser = adminUser;
+        this.targetMember = targetMember;
+        this.action = action;
+        this.reason = reason;
+    }
+}

@@ -60,4 +60,10 @@ public class AdminUser extends BaseTimeEntity {
     public boolean isActive() {
         return active;
     }
+
+    public static AdminUser reference(Long id) {
+        AdminUser adminUser = new AdminUser();
+        adminUser.id = id;
+        return adminUser;
+    }
 }

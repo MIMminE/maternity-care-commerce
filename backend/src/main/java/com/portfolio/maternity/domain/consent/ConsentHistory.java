@@ -46,4 +46,16 @@ public class ConsentHistory extends BaseTimeEntity {
         this.agreed = agreed;
         this.agreedAt = agreedAt;
     }
+
+    public ConsentType getConsentType() {
+        return consentType;
+    }
+
+    public boolean isAgreed() {
+        return agreed;
+    }
+
+    public LocalDateTime getAgreedAt() {
+        return agreedAt;
+    }
 }

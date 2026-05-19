@@ -39,5 +39,54 @@ public class PregnancyProfile extends BaseTimeEntity {
 
     protected PregnancyProfile() {
     }
-}
 
+    public PregnancyProfile(
+            Member member,
+            PregnancyStatus status,
+            LocalDate expectedBirthDate,
+            LocalDate childBirthDate,
+            Integer pregnancyWeek
+    ) {
+        this.member = member;
+        this.status = status;
+        this.expectedBirthDate = expectedBirthDate;
+        this.childBirthDate = childBirthDate;
+        this.pregnancyWeek = pregnancyWeek;
+    }
+
+    public void update(
+            PregnancyStatus status,
+            LocalDate expectedBirthDate,
+            LocalDate childBirthDate,
+            Integer pregnancyWeek
+    ) {
+        this.status = status;
+        this.expectedBirthDate = expectedBirthDate;
+        this.childBirthDate = childBirthDate;
+        this.pregnancyWeek = pregnancyWeek;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public PregnancyStatus getStatus() {
+        return status;
+    }
+
+    public LocalDate getExpectedBirthDate() {
+        return expectedBirthDate;
+    }
+
+    public LocalDate getChildBirthDate() {
+        return childBirthDate;
+    }
+
+    public Integer getPregnancyWeek() {
+        return pregnancyWeek;
+    }
+}
