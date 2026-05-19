@@ -40,3 +40,5 @@ Swagger/OpenAPI 도입 후 주요 API 명세를 연결합니다.
 - `GET /admin-api/v1/orders`
 - `PATCH /admin-api/v1/orders/{orderId}/status`
 - `GET /admin-api/v1/audit-logs`
+- `GET /admin-api/v1/statistics/dashboard`
+- `GET /admin-api/v1/marketing/members`

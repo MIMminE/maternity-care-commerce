@@ -39,3 +39,5 @@
 ## 관리자 민감정보 조회 정책
 
 관리자가 `GET /admin-api/v1/members/{memberId}`로 회원 상세와 산모 프로필을 조회할 때 `X-Audit-Reason` 헤더의 사유를 함께 남깁니다. 헤더가 없으면 기본 조회 사유를 저장합니다.
+
+마케팅팀이 `GET /admin-api/v1/marketing/members`로 마케팅 동의 고객을 조회할 때도 `EXPORT_MARKETING_TARGETS` 감사 로그를 저장합니다.
