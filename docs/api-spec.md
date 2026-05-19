@@ -13,7 +13,9 @@ Swagger/OpenAPI 도입 후 주요 API 명세를 연결합니다.
 - `GET /client-api/v1/consents/me`
 - `GET /client-api/v1/contents`
 - `GET /client-api/v1/products`
+- `GET /client-api/v1/products/{productId}`
 - `GET /client-api/v1/cart`
+- `POST /client-api/v1/cart`
 - `POST /client-api/v1/orders`
 - `GET /client-api/v1/orders`
 - `POST /client-api/v1/consultations`
