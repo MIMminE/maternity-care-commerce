@@ -1,11 +1,7 @@
 name: backend-cd
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'backend/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -54,4 +50,3 @@ jobs:
             docker compose -f infra/docker-compose.prod.yml up -d
             sleep 10
             curl -fsS http://localhost:8080/client-api/v1/health
-

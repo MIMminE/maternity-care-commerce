@@ -1,11 +1,7 @@
 name: admin-web-cd
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'admin-web/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -35,4 +31,3 @@ jobs:
 
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.ADMIN_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
-

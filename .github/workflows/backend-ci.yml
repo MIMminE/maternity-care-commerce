@@ -1,6 +1,11 @@
 name: backend-ci
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
   pull_request:
     paths:
       - 'backend/**'
@@ -17,4 +22,3 @@ jobs:
       - name: Test
         working-directory: backend
         run: ./gradlew test
-
