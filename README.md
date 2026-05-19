@@ -145,6 +145,7 @@ password: password123!
 
 ## 문서
 
+- [이력서용 포트폴리오](docs/resume-portfolio.md)
 - [아키텍처](docs/architecture.md)
 - [요구사항](docs/requirements.md)
 - [ERD](docs/erd.md)
@@ -159,3 +160,5 @@ password: password123!
 이 프로젝트는 백엔드 포지션 지원을 목표로 하지만, 사용자 화면과 관리자 화면을 함께 구현해 API가 실제 운영 흐름에서 어떻게 쓰이는지 확인할 수 있게 구성했습니다.
 
 특히 모성 케어 도메인에서 중요한 개인정보 동의, 민감정보 접근 로그, CS 처리, 마케팅 동의 고객 필터링을 별도 기능으로 분리해 설계했습니다.
+
+화면 중심 설명은 [이력서용 포트폴리오](docs/resume-portfolio.md)에 정리했습니다.

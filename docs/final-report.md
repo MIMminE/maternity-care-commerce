@@ -4,6 +4,8 @@
 
 모성 케어 커머스 포트폴리오의 백엔드 핵심 기능, 사용자 웹, 관리자 웹, 문서, AWS/CI-CD 초안을 구성했습니다.
 
+화면 캡처 기반 이력서용 포트폴리오는 [resume-portfolio.md](resume-portfolio.md)에 정리했습니다.
+
 ## 구현된 실행 단위
 
 - `backend`: Spring Boot API server
@@ -48,6 +50,16 @@
 - 상품 등록/조회
 - 상담/문의 목록 조회
 - 마케팅 동의 고객 조회
+
+## 화면 캡처
+
+- 사용자 홈: `docs/assets/portfolio/client-home.png`
+- 사용자 상품: `docs/assets/portfolio/client-products.png`
+- 사용자 상담: `docs/assets/portfolio/client-consultation.png`
+- 관리자 대시보드: `docs/assets/portfolio/admin-dashboard.png`
+- 관리자 회원 상세: `docs/assets/portfolio/admin-members.png`
+- 관리자 상품 관리: `docs/assets/portfolio/admin-products.png`
+- 관리자 마케팅: `docs/assets/portfolio/admin-marketing.png`
 
 ## 배포/운영 구성
 
