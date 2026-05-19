@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: maternity-postgres
+    environment:
+      POSTGRES_DB: maternity
+      POSTGRES_USER: maternity
+      POSTGRES_PASSWORD: maternity
+    ports:
+      - "5432:5432"
+    volumes:
+      - maternity-postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: maternity-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  maternity-postgres-data:
+

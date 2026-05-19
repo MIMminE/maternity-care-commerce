@@ -1,0 +1,18 @@
+.DS_Store
+
+# Java / Gradle
+backend/.gradle/
+backend/build/
+
+# Node
+node_modules/
+client-web/node_modules/
+admin-web/node_modules/
+client-web/dist/
+admin-web/dist/
+
+# Environment
+.env
+.env.local
+backend/src/main/resources/application-secret.yml
+
