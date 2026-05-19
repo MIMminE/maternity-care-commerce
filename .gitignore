@@ -10,9 +10,10 @@ client-web/node_modules/
 admin-web/node_modules/
 client-web/dist/
 admin-web/dist/
+client-web/tsconfig.tsbuildinfo
+admin-web/tsconfig.tsbuildinfo
 
 # Environment
 .env
 .env.local
 backend/src/main/resources/application-secret.yml
-
