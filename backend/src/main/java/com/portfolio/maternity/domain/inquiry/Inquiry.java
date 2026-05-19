@@ -43,5 +43,40 @@ public class Inquiry extends BaseTimeEntity {
 
     protected Inquiry() {
     }
-}
 
+    public Inquiry(Member member, Product product, String title, String body) {
+        this.member = member;
+        this.product = product;
+        this.title = title;
+        this.body = body;
+        this.status = InquiryStatus.RECEIVED;
+    }
+
+    public void updateStatus(InquiryStatus status) {
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public InquiryStatus getStatus() {
+        return status;
+    }
+}

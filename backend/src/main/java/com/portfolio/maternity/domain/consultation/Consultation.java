@@ -41,5 +41,40 @@ public class Consultation extends BaseTimeEntity {
 
     protected Consultation() {
     }
-}
 
+    public Consultation(Member member, String title, String body) {
+        this.member = member;
+        this.title = title;
+        this.body = body;
+        this.status = ConsultationStatus.REQUESTED;
+    }
+
+    public void updateStatus(ConsultationStatus status, String internalMemo) {
+        this.status = status;
+        this.internalMemo = internalMemo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public ConsultationStatus getStatus() {
+        return status;
+    }
+
+    public String getInternalMemo() {
+        return internalMemo;
+    }
+}
