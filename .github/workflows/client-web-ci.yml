@@ -1,14 +1,17 @@
 name: client-web-ci
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - 'client-web/**'
+      - '.github/workflows/client-web-ci.yml'
   pull_request:
     paths:
       - 'client-web/**'
+      - '.github/workflows/client-web-ci.yml'
 
 jobs:
   build:
