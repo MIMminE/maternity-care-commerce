@@ -1,0 +1,53 @@
+# Architecture
+
+## 실행 단위
+
+```txt
+client-web  -> 사용자용 모바일 웹/PWA
+admin-web   -> 관리자 백오피스 웹
+backend     -> Spring Boot API server
+```
+
+## API 분리
+
+```txt
+/client-api/v1/**
+/admin-api/v1/**
+```
+
+사용자와 관리자는 같은 도메인을 사용하지만 권한, 응답 데이터, 처리 흐름이 다르기 때문에 API 계층을 분리합니다.
+
+## 백엔드 패키지
+
+```txt
+com.portfolio.maternity
+├── client       # 사용자 웹/PWA API
+├── admin        # 관리자 백오피스 API
+├── domain       # 핵심 도메인 모델
+├── infra        # 외부 연동, 파일, 푸시, 결제 어댑터
+└── global       # 보안, 예외, 공통 응답, 설정
+```
+
+## 1차 도메인 모델
+
+```txt
+domain
+├── member
+├── pregnancy
+├── consent
+├── content
+├── product
+├── cart
+├── order
+├── payment
+├── delivery
+├── review
+├── inquiry
+├── consultation
+├── coupon
+├── notification
+├── adminuser
+└── audit
+```
+
+커머스의 기본 흐름인 상품-장바구니-주문-결제-배송에, 모성 케어 서비스에 필요한 산모 프로필, 동의 이력, 상담, 개인정보 접근 로그를 추가합니다.
