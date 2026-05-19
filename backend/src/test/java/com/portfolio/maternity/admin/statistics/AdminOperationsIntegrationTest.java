@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.portfolio.maternity.domain.adminuser.AdminRole;
 import com.portfolio.maternity.domain.adminuser.AdminUser;
 import com.portfolio.maternity.domain.adminuser.AdminUserRepository;
+import com.portfolio.maternity.support.MockMvcAuthSupport;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,9 +40,9 @@ class AdminOperationsIntegrationTest {
                 passwordEncoder.encode("password123!"),
                 AdminRole.ADMIN
         ));
-        signup("marketing-ok@example.com", true);
-        signup("marketing-no@example.com", false);
-        String adminToken = loginAdminAndExtractToken();
+        MockMvcAuthSupport.signupMemberAndExtractToken(mockMvc, "marketing-ok@example.com", true);
+        MockMvcAuthSupport.signupMemberAndExtractToken(mockMvc, "marketing-no@example.com", false);
+        String adminToken = MockMvcAuthSupport.loginAdminAndExtractToken(mockMvc, "admin@example.com");
 
         mockMvc.perform(get("/admin-api/v1/statistics/dashboard")
                         .header("Authorization", "Bearer " + adminToken))
@@ -56,38 +57,4 @@ class AdminOperationsIntegrationTest {
                 .andExpect(jsonPath("$[0].email").value("marketing-ok@example.com"));
     }
 
-    private void signup(String email, boolean marketingAgreed) throws Exception {
-        mockMvc.perform(post("/client-api/v1/auth/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "email": "%s",
-                                  "password": "password123!",
-                                  "name": "테스트 산모",
-                                  "phoneNumber": "010-0000-0000",
-                                  "termsAgreed": true,
-                                  "privacyAgreed": true,
-                                  "sensitiveInformationAgreed": true,
-                                  "marketingAgreed": %s
-                                }
-                                """.formatted(email, marketingAgreed)))
-                .andExpect(status().isOk());
-    }
-
-    private String loginAdminAndExtractToken() throws Exception {
-        String response = mockMvc.perform(post("/admin-api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "email": "admin@example.com",
-                                  "password": "password123!"
-                                }
-                                """))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        return response.split("\"accessToken\":\"")[1].split("\"")[0];
-    }
 }
-

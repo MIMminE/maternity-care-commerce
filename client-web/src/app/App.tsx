@@ -1,52 +1,7 @@
-import { FormEvent, useMemo, useState } from 'react';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080';
-
-type Tab = 'home' | 'profile' | 'shop' | 'cart' | 'support';
-
-type Product = {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  stockQuantity: number;
-  status: string;
-};
-
-type CartItem = {
-  cartItemId: number;
-  productId: number;
-  productName: string;
-  unitPrice: number;
-  quantity: number;
-  lineAmount: number;
-};
-
-type PregnancyProfile = {
-  status: string;
-  expectedBirthDate?: string;
-  childBirthDate?: string;
-  pregnancyWeek?: number;
-};
-
-type Order = {
-  id: number;
-  orderNumber: string;
-  status: string;
-  totalAmount: number;
-};
-
-const demoProducts: Product[] = [
-  { id: 1, name: '산모애 바디로션', category: 'BODY_CARE', price: 32000, stockQuantity: 30, status: 'ON_SALE' },
-  { id: 2, name: '산모애 샴푸', category: 'HAIR_CARE', price: 28000, stockQuantity: 25, status: 'ON_SALE' },
-  { id: 3, name: '산모애 어메니티 세트', category: 'GIFT_SET', price: 54000, stockQuantity: 12, status: 'ON_SALE' }
-];
-
-const demoProfile: PregnancyProfile = {
-  status: 'PREGNANT',
-  expectedBirthDate: '2026-12-01',
-  pregnancyWeek: 13
-};
+import { FormEvent, useState } from 'react';
+import { apiRequest } from '../shared/api';
+import { demoProducts, demoProfile } from '../shared/demo-data';
+import type { CartItem, Order, PregnancyProfile, Product, Tab } from '../shared/types';
 
 export function App() {
   const [tab, setTab] = useState<Tab>('home');
@@ -59,31 +14,9 @@ export function App() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [notice, setNotice] = useState('데모 데이터가 표시 중입니다. 로그인 후 실제 API 흐름을 확인할 수 있습니다.');
 
-  const authHeaders = useMemo(
-    () => ({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }),
-    [token]
-  );
-
-  async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
-      ...options,
-      headers: {
-        ...(token ? authHeaders : { 'Content-Type': 'application/json' }),
-        ...(options.headers ?? {})
-      }
-    });
-    if (!response.ok) {
-      throw new Error(`API 요청 실패: ${response.status}`);
-    }
-    return response.json() as Promise<T>;
-  }
-
   async function signup() {
     try {
-      const data = await request<{ accessToken: string }>('/client-api/v1/auth/signup', {
+      const data = await apiRequest<{ accessToken: string }>('/client-api/v1/auth/signup', token, {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -106,7 +39,7 @@ export function App() {
   async function login(event?: FormEvent) {
     event?.preventDefault();
     try {
-      const data = await request<{ accessToken: string }>('/client-api/v1/auth/login', {
+      const data = await apiRequest<{ accessToken: string }>('/client-api/v1/auth/login', token, {
         method: 'POST',
         body: JSON.stringify({ email, password })
       });
@@ -121,7 +54,7 @@ export function App() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     try {
-      const data = await request<PregnancyProfile>('/client-api/v1/pregnancy-profile/me', {
+      const data = await apiRequest<PregnancyProfile>('/client-api/v1/pregnancy-profile/me', token, {
         method: 'PUT',
         body: JSON.stringify({
           status: form.get('status'),
@@ -139,7 +72,7 @@ export function App() {
 
   async function loadProducts() {
     try {
-      const data = await request<Product[]>('/client-api/v1/products');
+      const data = await apiRequest<Product[]>('/client-api/v1/products', token);
       setProducts(data);
       setNotice('판매 중인 상품을 불러왔습니다.');
     } catch {
@@ -149,7 +82,7 @@ export function App() {
 
   async function addToCart(productId: number) {
     try {
-      await request<CartItem>('/client-api/v1/cart', {
+      await apiRequest<CartItem>('/client-api/v1/cart', token, {
         method: 'POST',
         body: JSON.stringify({ productId, quantity: 1 })
       });
@@ -162,7 +95,7 @@ export function App() {
 
   async function loadCart() {
     try {
-      const data = await request<CartItem[]>('/client-api/v1/cart');
+      const data = await apiRequest<CartItem[]>('/client-api/v1/cart', token);
       setCart(data);
     } catch {
       setNotice('장바구니 조회에 실패했습니다.');
@@ -171,7 +104,7 @@ export function App() {
 
   async function createOrder() {
     try {
-      await request<Order>('/client-api/v1/orders', { method: 'POST' });
+      await apiRequest<Order>('/client-api/v1/orders', token, { method: 'POST' });
       await Promise.all([loadCart(), loadOrders()]);
       setNotice('주문이 생성되었습니다.');
     } catch {
@@ -181,7 +114,7 @@ export function App() {
 
   async function loadOrders() {
     try {
-      const data = await request<Order[]>('/client-api/v1/orders');
+      const data = await apiRequest<Order[]>('/client-api/v1/orders', token);
       setOrders(data);
     } catch {
       setNotice('주문 조회에 실패했습니다.');
@@ -192,7 +125,7 @@ export function App() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     try {
-      await request('/client-api/v1/consultations', {
+      await apiRequest('/client-api/v1/consultations', token, {
         method: 'POST',
         body: JSON.stringify({
           title: form.get('title'),

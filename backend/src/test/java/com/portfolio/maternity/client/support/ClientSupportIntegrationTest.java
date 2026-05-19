@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.portfolio.maternity.domain.product.Product;
 import com.portfolio.maternity.domain.product.ProductRepository;
 import com.portfolio.maternity.domain.product.ProductStatus;
+import com.portfolio.maternity.support.MockMvcAuthSupport;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ class ClientSupportIntegrationTest {
                 5,
                 ProductStatus.ON_SALE
         ));
-        String token = signupAndExtractToken("support@example.com");
+        String token = MockMvcAuthSupport.signupMemberAndExtractToken(mockMvc, "support@example.com");
 
         mockMvc.perform(post("/client-api/v1/consultations")
                         .header("Authorization", "Bearer " + token)
@@ -71,26 +72,4 @@ class ClientSupportIntegrationTest {
                 .andExpect(jsonPath("$.productName").value("산모애 샴푸"));
     }
 
-    private String signupAndExtractToken(String email) throws Exception {
-        String response = mockMvc.perform(post("/client-api/v1/auth/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "email": "%s",
-                                  "password": "password123!",
-                                  "name": "테스트 산모",
-                                  "phoneNumber": "010-0000-0000",
-                                  "termsAgreed": true,
-                                  "privacyAgreed": true,
-                                  "sensitiveInformationAgreed": true,
-                                  "marketingAgreed": true
-                                }
-                                """.formatted(email)))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        return response.split("\"accessToken\":\"")[1].split("\"")[0];
-    }
 }
-

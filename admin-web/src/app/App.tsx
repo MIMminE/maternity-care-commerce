@@ -1,113 +1,15 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import type { ReactNode } from 'react';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080';
-
-type View = 'dashboard' | 'members' | 'products' | 'support' | 'marketing';
-
-type Dashboard = {
-  totalMembers: number;
-  marketingAgreedMembers: number;
-  totalOrders: number;
-  totalOrderAmount: number;
-  requestedConsultations: number;
-  receivedInquiries: number;
-};
-
-type Member = {
-  id: number;
-  email: string;
-  name: string;
-  phoneNumber: string | null;
-  status: string;
-  pregnancyProfile?: {
-    status: string;
-    expectedBirthDate?: string;
-    childBirthDate?: string;
-    pregnancyWeek?: number;
-  } | null;
-};
-
-type Product = {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  stockQuantity: number;
-  status: string;
-};
-
-type SupportTicket = {
-  id: number;
-  memberId: number;
-  title: string;
-  body: string;
-  status: string;
-  productName?: string | null;
-};
-
-type MarketingMember = {
-  memberId: number;
-  email: string;
-  name: string;
-  phoneNumber: string | null;
-};
-
-const emptyDashboard: Dashboard = {
-  totalMembers: 2,
-  marketingAgreedMembers: 2,
-  totalOrders: 1,
-  totalOrderAmount: 64000,
-  requestedConsultations: 1,
-  receivedInquiries: 1
-};
-
-const demoMembers: Member[] = [
-  {
-    id: 1,
-    email: 'mother@example.com',
-    name: '김마미',
-    phoneNumber: '010-1000-2000',
-    status: 'ACTIVE',
-    pregnancyProfile: {
-      status: 'PREGNANT',
-      expectedBirthDate: '2026-12-01',
-      pregnancyWeek: 13
-    }
-  }
-];
-
-const demoProducts: Product[] = [
-  { id: 1, name: '산모애 바디로션', category: 'BODY_CARE', price: 32000, stockQuantity: 30, status: 'ON_SALE' },
-  { id: 2, name: '산모애 샴푸', category: 'HAIR_CARE', price: 28000, stockQuantity: 25, status: 'ON_SALE' },
-  { id: 3, name: '산모애 어메니티 세트', category: 'GIFT_SET', price: 54000, stockQuantity: 12, status: 'ON_SALE' }
-];
-
-const demoConsultations: SupportTicket[] = [
-  {
-    id: 1,
-    memberId: 1,
-    title: '출산 후 제품 사용 상담',
-    body: '출산 직후에도 사용할 수 있는지 문의드립니다.',
-    status: 'REQUESTED'
-  }
-];
-
-const demoInquiries: SupportTicket[] = [
-  {
-    id: 1,
-    memberId: 1,
-    title: '향 문의',
-    body: '향이 강한 편인지 궁금합니다.',
-    status: 'RECEIVED',
-    productName: '산모애 샴푸'
-  }
-];
-
-const demoMarketingMembers: MarketingMember[] = [
-  { memberId: 1, email: 'mother@example.com', name: '김마미', phoneNumber: '010-1000-2000' },
-  { memberId: 2, email: 'marketing@example.com', name: '이산모', phoneNumber: '010-3000-4000' }
-];
+import { apiRequest } from '../shared/api';
+import {
+  demoConsultations,
+  demoInquiries,
+  demoMarketingMembers,
+  demoMembers,
+  demoProducts,
+  emptyDashboard
+} from '../shared/demo-data';
+import type { Dashboard, MarketingMember, Member, Product, SupportTicket, View } from '../shared/types';
 
 export function App() {
   const [view, setView] = useState<View>('dashboard');
@@ -123,32 +25,10 @@ export function App() {
   const [marketingMembers, setMarketingMembers] = useState<MarketingMember[]>(demoMarketingMembers);
   const [notice, setNotice] = useState('데모 데이터가 표시 중입니다. 백엔드 로그인 후 실제 데이터로 갱신할 수 있습니다.');
 
-  const authHeaders = useMemo(
-    () => ({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }),
-    [token]
-  );
-
-  async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
-      ...options,
-      headers: {
-        ...(token ? authHeaders : { 'Content-Type': 'application/json' }),
-        ...(options.headers ?? {})
-      }
-    });
-    if (!response.ok) {
-      throw new Error(`API 요청 실패: ${response.status}`);
-    }
-    return response.json() as Promise<T>;
-  }
-
   async function login(event: FormEvent) {
     event.preventDefault();
     try {
-      const data = await request<{ accessToken: string }>('/admin-api/v1/auth/login', {
+      const data = await apiRequest<{ accessToken: string }>('/admin-api/v1/auth/login', token, {
         method: 'POST',
         body: JSON.stringify({ email, password })
       });
@@ -161,7 +41,7 @@ export function App() {
 
   async function loadDashboard() {
     try {
-      const data = await request<Dashboard>('/admin-api/v1/statistics/dashboard');
+      const data = await apiRequest<Dashboard>('/admin-api/v1/statistics/dashboard', token);
       setDashboard(data);
       setNotice('운영 대시보드 통계를 불러왔습니다.');
     } catch {
@@ -171,7 +51,7 @@ export function App() {
 
   async function loadMembers() {
     try {
-      const data = await request<Member[]>('/admin-api/v1/members');
+      const data = await apiRequest<Member[]>('/admin-api/v1/members', token);
       setMembers(data);
       setNotice('회원 목록을 불러왔습니다.');
     } catch {
@@ -181,7 +61,7 @@ export function App() {
 
   async function loadMemberDetail(memberId: number) {
     try {
-      const data = await request<Member>(`/admin-api/v1/members/${memberId}`, {
+      const data = await apiRequest<Member>(`/admin-api/v1/members/${memberId}`, token, {
         headers: { 'X-Audit-Reason': '관리자 화면 회원 상세 확인' }
       });
       setSelectedMember(data);
@@ -193,7 +73,7 @@ export function App() {
 
   async function loadProducts() {
     try {
-      const data = await request<Product[]>('/admin-api/v1/products');
+      const data = await apiRequest<Product[]>('/admin-api/v1/products', token);
       setProducts(data);
       setNotice('상품 목록을 불러왔습니다.');
     } catch {
@@ -205,7 +85,7 @@ export function App() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     try {
-      await request<Product>('/admin-api/v1/products', {
+      await apiRequest<Product>('/admin-api/v1/products', token, {
         method: 'POST',
         body: JSON.stringify({
           name: form.get('name'),
@@ -226,8 +106,8 @@ export function App() {
   async function loadSupport() {
     try {
       const [consultationData, inquiryData] = await Promise.all([
-        request<SupportTicket[]>('/admin-api/v1/consultations'),
-        request<SupportTicket[]>('/admin-api/v1/inquiries')
+        apiRequest<SupportTicket[]>('/admin-api/v1/consultations', token),
+        apiRequest<SupportTicket[]>('/admin-api/v1/inquiries', token)
       ]);
       setConsultations(consultationData);
       setInquiries(inquiryData);
@@ -239,7 +119,7 @@ export function App() {
 
   async function loadMarketingMembers() {
     try {
-      const data = await request<MarketingMember[]>('/admin-api/v1/marketing/members', {
+      const data = await apiRequest<MarketingMember[]>('/admin-api/v1/marketing/members', token, {
         headers: { 'X-Audit-Reason': '관리자 화면 마케팅 대상 확인' }
       });
       setMarketingMembers(data);
