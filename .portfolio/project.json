@@ -1,0 +1,36 @@
+{
+  "id": "maternity-care-commerce",
+  "title": "Maternity Care Commerce",
+  "subtitle": "모성 케어 커머스와 운영 백오피스",
+  "category": "실무 도메인형",
+  "status": "Portfolio Ready",
+  "description": "임신·출산·육아 도메인의 사용자 서비스, D2C 커머스, 관리자 운영 시스템을 통합한 백엔드 중심 프로젝트입니다.",
+  "problem": "커머스와 케어 서비스가 결합된 도메인은 개인정보, 상담, 마케팅 동의, 상품 주문 흐름을 함께 관리해야 합니다.",
+  "solution": "사용자 API와 관리자 API를 분리하고, 산모 프로필, 동의 이력, 상담/문의, 주문, 감사 로그를 구성했습니다.",
+  "impact": "현업 부서와 커뮤니케이션하며 요구사항을 구조화하는 백엔드 역량을 보여줄 수 있습니다.",
+  "stacks": ["Java", "Spring Boot", "Spring Security", "JPA", "PostgreSQL", "React", "TypeScript"],
+  "highlights": [
+    "사용자/관리자 API 분리",
+    "산모 프로필과 개인정보 동의 이력",
+    "관리자 마케팅 대상 조회",
+    "민감정보 접근 감사 로그"
+  ],
+  "interviewPoints": [
+    "현업 요구사항을 API와 운영 화면으로 나눈 방식 설명",
+    "개인정보 접근 감사 로그를 둔 이유 설명",
+    "커머스 주문과 케어 도메인 데이터를 분리한 설계 설명"
+  ],
+  "coverImage": {
+    "path": "docs/assets/portfolio/admin-dashboard.png",
+    "alt": "Maternity Care Commerce 관리자 대시보드"
+  },
+  "documents": [
+    { "label": "이력서용 요약", "path": "docs/resume-portfolio.md", "type": "docs" },
+    { "label": "최종 보고서", "path": "docs/final-report.md", "type": "docs" },
+    { "label": "아키텍처", "path": "docs/architecture.md", "type": "docs" }
+  ],
+  "localDemo": {
+    "label": "Admin/Client Web",
+    "url": "http://localhost:5174"
+  }
+}
