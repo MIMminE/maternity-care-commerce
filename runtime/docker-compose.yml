@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: maternity
+      POSTGRES_USER: maternity
+      POSTGRES_PASSWORD: maternity
+    ports:
+      - "15432:5432"
+    volumes:
+      - maternity-postgres-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ..
+      dockerfile: runtime/docker/backend.Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:postgresql://postgres:5432/maternity
+      DB_USERNAME: maternity
+      DB_PASSWORD: maternity
+      SECURITY_JWT_SECRET: runtime-compose-secret-change-me
+    ports:
+      - "8080:8080"
+
+  admin-web:
+    build:
+      context: ..
+      dockerfile: runtime/docker/admin-web.Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:8080
+    depends_on:
+      - backend
+    ports:
+      - "4174:80"
+
+  desktop-web:
+    build:
+      context: ..
+      dockerfile: runtime/docker/desktop-web.Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:8080
+    depends_on:
+      - backend
+    ports:
+      - "4176:80"
+
+volumes:
+  maternity-postgres-data:

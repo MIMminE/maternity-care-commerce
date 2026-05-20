@@ -1,0 +1,40 @@
+{
+  "id": "maternity-care-commerce",
+  "title": "Care Commerce Platform",
+  "subtitle": "고객 데스크톱 웹, iOS 앱, 관리자 백오피스를 분리한 케어 커머스 운영 시스템",
+  "category": "실무 도메인형",
+  "status": "Portfolio Ready",
+  "summary": "케어 커머스 도메인의 고객 데스크톱 웹, iOS SwiftUI 앱, 관리자 백오피스, Spring Boot API 서버를 분리해 구성한 포트폴리오입니다.",
+  "stacks": [
+    "Java",
+    "Spring Boot",
+    "Spring Security",
+    "JPA",
+    "PostgreSQL",
+    "React",
+    "TypeScript",
+    "Vite",
+    "SwiftUI"
+  ],
+  "repoUrl": "https://github.com/MIMminE/maternity-care-commerce",
+  "article": "blog/article.md",
+  "coverImage": "blog/images/01-desktop-web.png",
+  "coverAlt": "Care Commerce Platform 고객 데스크톱 웹",
+  "links": [
+    {
+      "label": "README",
+      "url": "README.md",
+      "type": "document"
+    },
+    {
+      "label": "이력서용 포트폴리오",
+      "url": "docs/resume-portfolio.md",
+      "type": "document"
+    },
+    {
+      "label": "아키텍처",
+      "url": "docs/architecture.md",
+      "type": "document"
+    }
+  ]
+}
