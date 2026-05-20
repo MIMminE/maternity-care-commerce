@@ -9,13 +9,19 @@ services:
       - "15432:5432"
     volumes:
       - maternity-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maternity -d maternity"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   backend:
     build:
       context: ..
       dockerfile: runtime/docker/backend.Dockerfile
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_URL: jdbc:postgresql://postgres:5432/maternity
@@ -24,6 +30,12 @@ services:
       SECURITY_JWT_SECRET: runtime-compose-secret-change-me
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/client-api/v1/health >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
 
   admin-web:
     build:
@@ -32,9 +44,15 @@ services:
       args:
         VITE_API_BASE_URL: http://localhost:8080
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     ports:
       - "4174:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   desktop-web:
     build:
@@ -43,9 +61,15 @@ services:
       args:
         VITE_API_BASE_URL: http://localhost:8080
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     ports:
       - "4176:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
 volumes:
   maternity-postgres-data:
