@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Care Commerce iOS Preview</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="preview-shell">
+      <section class="phone">
+        <header class="status-bar">
+          <span>9:41</span>
+          <span>LTE 100%</span>
+        </header>
+
+        <section class="app-screen" data-screen="home">
+          <div class="nav-title">
+            <span>Care Commerce</span>
+            <strong>홈</strong>
+          </div>
+
+          <article class="hero-card">
+            <span>오늘의 케어</span>
+            <h1>13주차 케어를 준비했어요</h1>
+            <p id="notice">데모 데이터로 iOS 고객 앱 흐름을 확인합니다.</p>
+          </article>
+
+          <div class="summary-grid">
+            <article class="summary-card">
+              <span>케어 상태</span>
+              <strong>임신 중</strong>
+            </article>
+            <article class="summary-card">
+              <span>장바구니</span>
+              <strong><b data-cart-count>0</b>개</strong>
+            </article>
+            <article class="summary-card">
+              <span>진행 주문</span>
+              <strong>배송 준비</strong>
+            </article>
+            <article class="summary-card">
+              <span>상담</span>
+              <strong>답변 대기</strong>
+            </article>
+          </div>
+
+          <article class="card">
+            <div class="section-heading">
+              <span>자주 찾는 상품</span>
+              <strong>추천 상품</strong>
+            </div>
+            <button class="line-button" data-add="1">
+              <span>케어 바디로션</span>
+              <strong>32,000원</strong>
+            </button>
+            <button class="line-button" data-add="2">
+              <span>케어 샴푸</span>
+              <strong>28,000원</strong>
+            </button>
+          </article>
+        </section>
+
+        <section class="app-screen hidden" data-screen="products">
+          <div class="nav-title">
+            <span>Shop</span>
+            <strong>상품</strong>
+          </div>
+          <div class="segmented">
+            <button class="active" data-filter="ALL">전체</button>
+            <button data-filter="BODY_CARE">바디</button>
+            <button data-filter="HAIR_CARE">헤어</button>
+            <button data-filter="GIFT_SET">선물</button>
+          </div>
+          <div class="product-list" id="product-list"></div>
+        </section>
+
+        <section class="app-screen hidden" data-screen="cart">
+          <div class="nav-title">
+            <span>Order</span>
+            <strong>주문</strong>
+          </div>
+          <article class="card">
+            <div class="section-heading">
+              <span id="cart-subtitle">0개 상품</span>
+              <strong>장바구니</strong>
+            </div>
+            <div class="cart-list" id="cart-list">
+              <p class="empty">상품을 담으면 이곳에서 수량과 금액을 확인할 수 있습니다.</p>
+            </div>
+            <div class="total-row">
+              <span>합계</span>
+              <strong data-cart-total>0원</strong>
+            </div>
+            <button class="primary" id="create-order">주문 생성</button>
+          </article>
+          <article class="card">
+            <div class="section-heading">
+              <span>최근 주문</span>
+              <strong>주문 내역</strong>
+            </div>
+            <div id="order-list"></div>
+          </article>
+        </section>
+
+        <section class="app-screen hidden" data-screen="profile">
+          <div class="nav-title">
+            <span>Profile</span>
+            <strong>프로필</strong>
+          </div>
+          <article class="card form-card">
+            <label>
+              상태
+              <input value="임신 중" />
+            </label>
+            <label>
+              임신 주차
+              <input value="13주" />
+            </label>
+            <label>
+              출산 예정일
+              <input value="2026-12-01" />
+            </label>
+            <button class="primary" data-save-profile>프로필 저장</button>
+          </article>
+        </section>
+
+        <section class="app-screen hidden" data-screen="support">
+          <div class="nav-title">
+            <span>Support</span>
+            <strong>상담</strong>
+          </div>
+          <article class="card form-card">
+            <input id="support-title" placeholder="상담 제목" />
+            <textarea id="support-body" placeholder="문의 내용을 입력하세요."></textarea>
+            <button class="primary" id="create-support">상담 접수</button>
+          </article>
+          <article class="card">
+            <div class="section-heading">
+              <span>최근 문의</span>
+              <strong>상담 상태</strong>
+            </div>
+            <div id="support-list"></div>
+          </article>
+        </section>
+
+        <nav class="tabbar">
+          <button class="active" data-tab="home">홈</button>
+          <button data-tab="products">상품</button>
+          <button data-tab="cart">주문</button>
+          <button data-tab="profile">프로필</button>
+          <button data-tab="support">상담</button>
+        </nav>
+      </section>
+
+      <aside class="preview-note">
+        <span>iOS Preview</span>
+        <h2>SwiftUI 앱 화면 확인용 로컬 프리뷰</h2>
+        <p>
+          실제 네이티브 앱 소스는 <code>ios-app/CareCommerceiOS.xcodeproj</code>에 있으며, 이 화면은 Xcode
+          Simulator가 없는 현재 환경에서 UI 흐름을 확인하기 위한 브라우저 프리뷰입니다.
+        </p>
+      </aside>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>
