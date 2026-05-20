@@ -32,7 +32,7 @@ class ClientCommerceIntegrationTest {
     @Test
     void memberCanAddProductToCartAndCreateOrder() throws Exception {
         Product product = productRepository.save(new Product(
-                "산모애 바디로션",
+                "케어 바디로션",
                 "BODY_CARE",
                 BigDecimal.valueOf(32000),
                 10,
@@ -43,7 +43,7 @@ class ClientCommerceIntegrationTest {
         mockMvc.perform(get("/client-api/v1/products")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("산모애 바디로션"));
+                .andExpect(jsonPath("$[0].name").value("케어 바디로션"));
 
         mockMvc.perform(post("/client-api/v1/cart")
                         .header("Authorization", "Bearer " + token)
@@ -63,7 +63,7 @@ class ClientCommerceIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("CREATED"))
                 .andExpect(jsonPath("$.totalAmount").value(64000.0))
-                .andExpect(jsonPath("$.items[0].productName").value("산모애 바디로션"));
+                .andExpect(jsonPath("$.items[0].productName").value("케어 바디로션"));
 
         mockMvc.perform(get("/client-api/v1/cart")
                         .header("Authorization", "Bearer " + token))

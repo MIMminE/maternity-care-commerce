@@ -25,9 +25,9 @@ export const demoMembers: Member[] = [
 ];
 
 export const demoProducts: Product[] = [
-  { id: 1, name: '산모애 바디로션', category: 'BODY_CARE', price: 32000, stockQuantity: 30, status: 'ON_SALE' },
-  { id: 2, name: '산모애 샴푸', category: 'HAIR_CARE', price: 28000, stockQuantity: 25, status: 'ON_SALE' },
-  { id: 3, name: '산모애 어메니티 세트', category: 'GIFT_SET', price: 54000, stockQuantity: 12, status: 'ON_SALE' }
+  { id: 1, name: '케어 바디로션', category: 'BODY_CARE', price: 32000, stockQuantity: 30, status: 'ON_SALE' },
+  { id: 2, name: '케어 샴푸', category: 'HAIR_CARE', price: 28000, stockQuantity: 25, status: 'ON_SALE' },
+  { id: 3, name: '케어 어메니티 세트', category: 'GIFT_SET', price: 54000, stockQuantity: 12, status: 'ON_SALE' }
 ];
 
 export const demoConsultations: SupportTicket[] = [
@@ -47,12 +47,12 @@ export const demoInquiries: SupportTicket[] = [
     title: '향 문의',
     body: '향이 강한 편인지 궁금합니다.',
     status: 'RECEIVED',
-    productName: '산모애 샴푸'
+    productName: '케어 샴푸'
   }
 ];
 
 export const demoMarketingMembers: MarketingMember[] = [
   { memberId: 1, email: 'mother@example.com', name: '김마미', phoneNumber: '010-1000-2000' },
-  { memberId: 2, email: 'marketing@example.com', name: '이산모', phoneNumber: '010-3000-4000' }
+  { memberId: 2, email: 'marketing@example.com', name: '이고객', phoneNumber: '010-3000-4000' }
 ];
 

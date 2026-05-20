@@ -32,7 +32,7 @@ class ClientSupportIntegrationTest {
     @Test
     void memberCanCreateConsultationAndInquiry() throws Exception {
         Product product = productRepository.save(new Product(
-                "산모애 샴푸",
+                "케어 샴푸",
                 "HAIR_CARE",
                 BigDecimal.valueOf(28000),
                 5,
@@ -69,7 +69,7 @@ class ClientSupportIntegrationTest {
                                 """.formatted(product.getId())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("RECEIVED"))
-                .andExpect(jsonPath("$.productName").value("산모애 샴푸"));
+                .andExpect(jsonPath("$.productName").value("케어 샴푸"));
     }
 
 }

@@ -140,7 +140,7 @@ export function App() {
   return (
     <main className="admin-shell">
       <aside className="sidebar">
-        <strong>Maternity Admin</strong>
+        <strong>Care Admin</strong>
         <nav>
           {navItems.map(([key, label]) => (
             <button className={view === key ? 'active' : ''} key={key} onClick={() => setView(key)}>
@@ -214,13 +214,13 @@ export function App() {
                   <dd>{selectedMember.email}</dd>
                   <dt>연락처</dt>
                   <dd>{selectedMember.phoneNumber ?? '-'}</dd>
-                  <dt>산모 상태</dt>
+                  <dt>케어 상태</dt>
                   <dd>{selectedMember.pregnancyProfile?.status ?? '-'}</dd>
                   <dt>임신 주차</dt>
                   <dd>{selectedMember.pregnancyProfile?.pregnancyWeek ?? '-'}</dd>
                 </dl>
               ) : (
-                <p>회원을 선택하면 산모 프로필과 함께 표시됩니다.</p>
+                <p>회원을 선택하면 케어 프로필과 함께 표시됩니다.</p>
               )}
             </div>
           </section>

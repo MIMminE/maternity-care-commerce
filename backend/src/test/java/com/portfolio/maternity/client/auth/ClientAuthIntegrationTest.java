@@ -29,7 +29,7 @@ class ClientAuthIntegrationTest {
                                 {
                                   "email": "mother@example.com",
                                   "password": "password123!",
-                                  "name": "테스트 산모",
+                                  "name": "테스트 사용자",
                                   "phoneNumber": "010-0000-0000",
                                   "termsAgreed": true,
                                   "privacyAgreed": true,
