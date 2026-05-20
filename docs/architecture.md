@@ -3,7 +3,8 @@
 ## 실행 단위
 
 ```txt
-client-web  -> 사용자용 모바일 웹/PWA
+desktop-web -> 고객용 데스크톱 웹
+ios-app     -> 고객용 iOS SwiftUI 앱
 admin-web   -> 관리자 백오피스 웹
 backend     -> Spring Boot API server
 ```
@@ -21,7 +22,7 @@ backend     -> Spring Boot API server
 
 ```txt
 com.portfolio.maternity
-├── client       # 사용자 웹/PWA API
+├── client       # 고객 서비스 API
 ├── admin        # 관리자 백오피스 API
 ├── domain       # 핵심 도메인 모델
 ├── infra        # 외부 연동, 파일, 푸시, 결제 어댑터
@@ -50,7 +51,7 @@ domain
 └── audit
 ```
 
-커머스의 기본 흐름인 상품-장바구니-주문-결제-배송에, 모성 케어 서비스에 필요한 산모 프로필, 동의 이력, 상담, 개인정보 접근 로그를 추가합니다.
+커머스의 기본 흐름인 상품-장바구니-주문-결제-배송에, 케어 서비스에 필요한 프로필, 동의 이력, 상담, 개인정보 접근 로그를 추가합니다.
 
 ## 감사 로그 흐름
 
@@ -59,10 +60,10 @@ Admin Web
   -> GET /admin-api/v1/members/{memberId}
   -> AdminMemberService
   -> AuditLog 저장
-  -> 회원 상세 + 산모 프로필 응답
+  -> 회원 상세 + 케어 프로필 응답
 ```
 
-민감한 산모 프로필을 관리자 화면에서 조회하는 경우, 조회 사유와 관리자 식별자를 함께 저장합니다.
+민감한 케어 프로필을 관리자 화면에서 조회하는 경우, 조회 사유와 관리자 식별자를 함께 저장합니다.
 
 ## 커머스 주문 흐름
 
@@ -70,7 +71,7 @@ Admin Web
 Admin Web
   -> 상품 등록/판매 상태 변경
 
-Client Web
+Desktop Web / iOS App
   -> 판매 중 상품 조회
   -> 장바구니 담기
   -> 주문 생성
@@ -84,7 +85,7 @@ Client Web
 ## CS/운영 처리 흐름
 
 ```txt
-Client Web
+Desktop Web / iOS App
   -> 상담 신청 / 상품 문의 등록
 
 Admin Web

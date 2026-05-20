@@ -2,8 +2,9 @@
 
 ## Production
 
-- `client-web`: S3 + CloudFront
+- `desktop-web`: S3 + CloudFront
 - `admin-web`: S3 + CloudFront
+- `ios-app`: Xcode archive 또는 TestFlight 배포
 - `backend`: EC2 + Docker + Nginx
 - Database: RDS PostgreSQL
 - File storage: S3
@@ -12,7 +13,7 @@
 ## 도메인 예시
 
 ```txt
-app.example.com       client-web
+www.example.com       desktop-web
 admin.example.com     admin-web
 api.example.com       backend
 ```
@@ -38,6 +39,17 @@ GitHub Actions
   -> npm run build
   -> aws s3 sync dist
   -> CloudFront invalidation
+```
+
+## iOS 배포 흐름
+
+```txt
+GitHub Actions
+  -> Swift typecheck
+  -> Xcode archive
+  -> export ipa
+  -> 릴리즈 산출물 업로드
+  -> 필요 시 TestFlight 배포
 ```
 
 ## 운영 보안
