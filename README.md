@@ -117,9 +117,9 @@ iOS App:      ios-app/CareCommerceiOS.xcodeproj
 iOS Preview:  ios-app/preview
 ```
 
-## 데모 계정
+## 샘플 계정
 
-로컬 프로필에서는 Flyway가 데모 데이터를 함께 적재합니다.
+로컬 프로필에서는 Flyway가 샘플 데이터를 함께 적재합니다.
 
 ```txt
 관리자

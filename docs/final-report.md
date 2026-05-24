@@ -95,14 +95,14 @@ ios-app swiftc typecheck
 
 현재 로컬 환경에서 두 React 웹 실행 단위의 Vite build를 통과했고, iOS Swift 소스는 Swift 타입 체크를 통과했습니다. 단, Xcode 앱이 설치되어 있지 않아 `xcodebuild` 기반 iPhone Simulator 빌드는 진행하지 못했습니다.
 
-## 데모 계정
+## 샘플 계정
 
 ```txt
 관리자: admin@example.com / password123!
 사용자: mother@example.com / password123!
 ```
 
-로컬 프로필에서만 데모 데이터가 적재되도록 `db/local` Flyway 경로를 분리했습니다.
+로컬 프로필에서만 샘플 데이터가 적재되도록 `db/local` Flyway 경로를 분리했습니다.
 
 ## 남은 보강 사항
 
