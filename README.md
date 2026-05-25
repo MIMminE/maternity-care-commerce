@@ -13,6 +13,7 @@
 | 실행 단위 분리 | 고객 웹, iOS 앱, 관리자 웹, Spring Boot API를 역할별로 구성 |
 | API 경계 설계 | `/client-api/v1/**`, `/admin-api/v1/**`로 권한과 응답 모델 분리 |
 | 민감정보 고려 | 케어 프로필, 동의 이력, 관리자 조회 감사 로그 모델링 |
+| 보안 검증 흐름 | JWT Bearer 인증을 OpenAPI/Swagger UI에 연결하고 관리자 역할별 API 접근 경계 구성 |
 | 운영 데이터 무결성 | 주문 당시 가격 스냅샷과 상담 상태 변경 이력 관리 |
 | 포트폴리오 설득력 | 고객 화면과 관리자 화면으로 백엔드 요구사항의 맥락을 시각화 |
 
@@ -39,7 +40,7 @@ admin-web     관리자 백오피스 웹
 
 ```txt
 Backend
-Java 17, Spring Boot 3, Spring Security, JPA, Flyway, PostgreSQL, H2 Test DB
+Java 17, Spring Boot 3, Spring Security, Springdoc OpenAPI, JPA, Flyway, PostgreSQL, H2 Test DB
 
 Frontend
 React, TypeScript, Vite
@@ -68,9 +69,12 @@ Admin
 - 상품 등록/수정/판매 상태 관리
 - 상담/상품 문의 처리
 - 마케팅 동의 고객 필터링
+- 감사 로그 조회
 
 Backend
 - 사용자/관리자 인증과 권한 분리
+- 관리자 역할별 API 접근 제어
+- Swagger UI JWT Bearer 인증 테스트
 - 개인정보 동의 이력 저장
 - 민감 정보 조회 감사 로그
 - 장바구니 기반 주문 생성
@@ -123,6 +127,7 @@ npm run dev
 
 ```txt
 Backend:      http://localhost:8080
+Swagger UI:   http://localhost:8080/swagger-ui/index.html
 Desktop Web:  http://localhost:5176
 Admin Web:    http://localhost:5174
 iOS App:      ios-app/CareCommerceiOS.xcodeproj
@@ -174,6 +179,8 @@ password: password123!
 이 프로젝트는 백엔드 포지션 지원을 목표로 하지만, API만 나열하지 않고 실제 화면에서 API가 어떻게 쓰이는지 보여주기 위해 고객 데스크톱 웹, iOS 고객 앱, 관리자 웹을 함께 구성했습니다.
 
 특히 고객 정보와 케어 프로필처럼 민감하게 다룰 수 있는 데이터를 동의 이력과 감사 로그로 관리하고, CS/운영/마케팅 부서가 같은 백엔드를 서로 다른 목적과 권한으로 사용하는 구조를 표현했습니다.
+
+보안 측면에서는 JWT 기반 stateless 인증을 적용하고, OpenAPI에 Bearer 인증 스키마를 등록해 Swagger UI에서도 보호 API를 수동 검증할 수 있게 했습니다. 관리자 API는 전체 관리자, CS, 운영, 마케팅, 법무 역할별로 접근 범위를 나눠 민감정보 조회와 마케팅 대상 조회가 감사 로그로 남도록 구성했습니다.
 
 ## 포트폴리오 허브 패키지
 

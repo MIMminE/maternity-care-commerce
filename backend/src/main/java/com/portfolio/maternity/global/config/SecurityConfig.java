@@ -3,6 +3,7 @@ package com.portfolio.maternity.global.config;
 import com.portfolio.maternity.global.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,16 +32,19 @@ public class SecurityConfig {
                                 "/client-api/v1/auth/signup",
                                 "/client-api/v1/auth/login",
                                 "/admin-api/v1/health",
-                                "/admin-api/v1/auth/login"
+                                "/admin-api/v1/auth/login",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
                         ).permitAll()
                         .requestMatchers("/client-api/**").hasRole("MEMBER")
-                        .requestMatchers("/admin-api/**").hasAnyRole(
-                                "ADMIN",
-                                "CS_MANAGER",
-                                "OPERATION_MANAGER",
-                                "MARKETER",
-                                "LEGAL_MANAGER"
-                        )
+                        .requestMatchers(HttpMethod.GET, "/admin-api/v1/audit-logs/**").hasAnyRole("ADMIN", "LEGAL_MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/admin-api/v1/marketing/**").hasAnyRole("ADMIN", "MARKETER", "LEGAL_MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/admin-api/v1/members/**").hasAnyRole("ADMIN", "CS_MANAGER", "LEGAL_MANAGER")
+                        .requestMatchers("/admin-api/v1/consultations/**").hasAnyRole("ADMIN", "CS_MANAGER")
+                        .requestMatchers("/admin-api/v1/inquiries/**").hasAnyRole("ADMIN", "CS_MANAGER")
+                        .requestMatchers("/admin-api/v1/products/**").hasAnyRole("ADMIN", "OPERATION_MANAGER")
+                        .requestMatchers("/admin-api/v1/statistics/**").hasAnyRole("ADMIN", "OPERATION_MANAGER")
+                        .requestMatchers("/admin-api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

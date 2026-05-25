@@ -6,6 +6,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE_VALUE: ${{ secrets.DOCKER_IMAGE }}
+      EC2_HOST_VALUE: ${{ secrets.EC2_HOST }}
+      EC2_USER_VALUE: ${{ secrets.EC2_USER }}
+      EC2_SSH_KEY_VALUE: ${{ secrets.EC2_SSH_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -22,28 +27,38 @@ jobs:
         working-directory: backend
         run: ./gradlew bootJar
 
+      - name: Explain skipped backend deploy
+        if: ${{ env.DOCKER_IMAGE_VALUE == '' || env.EC2_HOST_VALUE == '' || env.EC2_USER_VALUE == '' || env.EC2_SSH_KEY_VALUE == '' }}
+        run: |
+          echo "Backend deploy secrets are not fully configured."
+          echo "Build validation completed, but Docker image upload and EC2 restart were skipped."
+
       - name: Build Docker image
+        if: ${{ env.DOCKER_IMAGE_VALUE != '' && env.EC2_HOST_VALUE != '' && env.EC2_USER_VALUE != '' && env.EC2_SSH_KEY_VALUE != '' }}
         working-directory: backend
-        run: docker build -t ${{ secrets.DOCKER_IMAGE }} .
+        run: docker build -t "${DOCKER_IMAGE_VALUE}" .
 
       - name: Save Docker image
-        run: docker save ${{ secrets.DOCKER_IMAGE }} | gzip > backend-image.tar.gz
+        if: ${{ env.DOCKER_IMAGE_VALUE != '' && env.EC2_HOST_VALUE != '' && env.EC2_USER_VALUE != '' && env.EC2_SSH_KEY_VALUE != '' }}
+        run: docker save "${DOCKER_IMAGE_VALUE}" | gzip > backend-image.tar.gz
 
       - name: Upload image to EC2
+        if: ${{ env.DOCKER_IMAGE_VALUE != '' && env.EC2_HOST_VALUE != '' && env.EC2_USER_VALUE != '' && env.EC2_SSH_KEY_VALUE != '' }}
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ env.EC2_HOST_VALUE }}
+          username: ${{ env.EC2_USER_VALUE }}
+          key: ${{ env.EC2_SSH_KEY_VALUE }}
           source: backend-image.tar.gz,infra/docker-compose.prod.yml
           target: ~/maternity-care-commerce
 
       - name: Restart backend
+        if: ${{ env.DOCKER_IMAGE_VALUE != '' && env.EC2_HOST_VALUE != '' && env.EC2_USER_VALUE != '' && env.EC2_SSH_KEY_VALUE != '' }}
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ env.EC2_HOST_VALUE }}
+          username: ${{ env.EC2_USER_VALUE }}
+          key: ${{ env.EC2_SSH_KEY_VALUE }}
           script: |
             cd ~/maternity-care-commerce
             docker load < backend-image.tar.gz

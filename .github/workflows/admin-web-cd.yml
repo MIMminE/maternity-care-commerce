@@ -6,6 +6,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID_VALUE: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY_VALUE: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION_VALUE: ${{ secrets.AWS_REGION }}
+      ADMIN_WEB_BUCKET_VALUE: ${{ secrets.ADMIN_WEB_BUCKET }}
+      ADMIN_CLOUDFRONT_DISTRIBUTION_ID_VALUE: ${{ secrets.ADMIN_CLOUDFRONT_DISTRIBUTION_ID }}
     steps:
       - uses: actions/checkout@v4
 
@@ -20,14 +26,23 @@ jobs:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
       - name: Configure AWS credentials
+        if: ${{ env.AWS_ACCESS_KEY_ID_VALUE != '' && env.AWS_SECRET_ACCESS_KEY_VALUE != '' && env.AWS_REGION_VALUE != '' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID_VALUE }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY_VALUE }}
+          aws-region: ${{ env.AWS_REGION_VALUE }}
+
+      - name: Explain skipped admin web deploy
+        if: ${{ env.AWS_ACCESS_KEY_ID_VALUE == '' || env.AWS_SECRET_ACCESS_KEY_VALUE == '' || env.AWS_REGION_VALUE == '' || env.ADMIN_WEB_BUCKET_VALUE == '' }}
+        run: |
+          echo "Admin web deploy secrets are not fully configured."
+          echo "Build validation completed, but S3 upload and CloudFront invalidation were skipped."
 
       - name: Upload to S3
-        run: aws s3 sync admin-web/dist s3://${{ secrets.ADMIN_WEB_BUCKET }} --delete
+        if: ${{ env.AWS_ACCESS_KEY_ID_VALUE != '' && env.AWS_SECRET_ACCESS_KEY_VALUE != '' && env.AWS_REGION_VALUE != '' && env.ADMIN_WEB_BUCKET_VALUE != '' }}
+        run: aws s3 sync admin-web/dist "s3://${ADMIN_WEB_BUCKET_VALUE}" --delete
 
       - name: Invalidate CloudFront
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.ADMIN_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        if: ${{ env.AWS_ACCESS_KEY_ID_VALUE != '' && env.AWS_SECRET_ACCESS_KEY_VALUE != '' && env.AWS_REGION_VALUE != '' && env.ADMIN_CLOUDFRONT_DISTRIBUTION_ID_VALUE != '' }}
+        run: aws cloudfront create-invalidation --distribution-id "${ADMIN_CLOUDFRONT_DISTRIBUTION_ID_VALUE}" --paths "/*"

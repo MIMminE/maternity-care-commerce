@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "audit_logs")
@@ -46,5 +47,29 @@ public class AuditLog extends BaseTimeEntity {
         this.targetMember = targetMember;
         this.action = action;
         this.reason = reason;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getAdminEmail() {
+        return adminUser.getEmail();
+    }
+
+    public Long getTargetMemberId() {
+        return targetMember == null ? null : targetMember.getId();
+    }
+
+    public AuditAction getAction() {
+        return action;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
